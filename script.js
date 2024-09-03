@@ -58,9 +58,11 @@ function displayPokemons() {
         return;
     }
 
+    let resHTML = '';
     for (let pokemon of pokemonsTab) {
-        pokemonContainer.innerHTML += `<p>${pokemon.name}</p>`;
+        resHTML += `<p>${pokemon.name}</p>`;
     }
+    pokemonContainer.innerHTML = resHTML;
 }
 
 displayPokemons();
