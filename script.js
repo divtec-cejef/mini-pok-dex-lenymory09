@@ -30,8 +30,8 @@ const typeColors = {
 };
 
 // Tableau d'objets représentant les Pokémon
+
 const pokemonsTab = [
-    {name: 'Pikachu', type: 'Électrique', level: 35, img: 'pikachu.png'},
     {name: 'Bulbizarre', type: 'Plante,Poison', level: 15, img: 'bulbizarre.png'},
     {name: 'Salamèche', type: 'Feu', level: 20, img: 'salameche.png'},
     {name: 'Carapuce', type: 'Eau', level: 10, img: 'carapuce.png'},
@@ -47,8 +47,23 @@ const pokemonsTab = [
     {name: 'Lokhlass', type: 'Eau,Glace', level: 35, img: 'lokhlass.png'},
     {name: 'Onix', type: 'Roche,Sol', level: 30, img: 'onix.png'},
     {name: 'Ronflex', type: 'Normal', level: 45, img: 'ronflex.png'},
-    {name: 'Mewtwo', type: 'Psy', level: 70, img: 'mewtwo.png'}
+    {name: 'Mewtwo', type: 'Psy', level: 70, img: 'mewtwo.png'},
+    {name: 'Pikachu', type: 'Électrique', level: 35, img: 'pikachu.png'}
 ];
+
+function generatePokemonCardHTML(pokemon){
+    let cardHTML = "<div class='pokemon-card' style='background: #705898;'> <img src='images/" + pokemon['img'] +
+        "' alt='" + pokemon['name'] + "'> <h2>" + pokemon['name'] + "</h2> <div>Type:";
+    let listeTypes = pokemon['type'].split(',');
+
+    for (let index = 0; index < listeTypes.length; index++) {
+        if (index !== 0) {
+            cardHTML += " / ";
+        }
+        cardHTML += listeTypes[index];
+    }
+    return cardHTML + "</div> <div>Niveau: " + pokemon['level'] + "</div> </div>";
+}
 
 function displayPokemons() {
     pokemonContainer.textContent = "";
@@ -60,14 +75,9 @@ function displayPokemons() {
 
     let resHTML = '';
     for (let pokemon of pokemonsTab) {
-        resHTML += `<p>${pokemon.name} `;
-
-        for (let type of pokemon.type.split(',')){
-            resHTML += `<small>${type}</small> `;
-        }
-        resHTML += "</p>";
+        resHTML += generatePokemonCardHTML(pokemon);
     }
     pokemonContainer.innerHTML = resHTML;
 }
-
 displayPokemons();
+
