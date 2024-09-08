@@ -51,20 +51,45 @@ const pokemonsTab = [
     {name: 'Pikachu', type: 'Électrique', level: 35, img: 'pikachu.png'}
 ];
 
-function generatePokemonCardHTML(pokemon){
-    let cardHTML = "<div class='pokemon-card' style='background: #705898;'> <img src='images/" + pokemon['img'] +
-        "' alt='" + pokemon['name'] + "'> <h2>" + pokemon['name'] + "</h2> <div>Type:";
+/**
+ * Genere le code HTML pour les différentes cartes pokemons
+ * @param pokemon à afficher
+ * @returns {string} le code HTML permettant d'afficher le pokemon.
+ */
+function generatePokemonCardHTML(pokemon) {
+    let cardHTML = "<div class='pokemon-card' style='background: "
     let listeTypes = pokemon['type'].split(',');
 
+    // Ajout couleur du Background
+    if (listeTypes.length > 1) {
+        cardHTML += "linear-gradient(to right, ";
+        for (let index = 0; index < listeTypes.length; index++){
+            if (index !== 0)
+                cardHTML += ",";
+            cardHTML += typeColors[listeTypes[index]] + " 50%";
+        }
+        cardHTML += ")"
+    } else {
+        cardHTML += typeColors[pokemon['type']];
+    }
+
+    cardHTML += ";'> <img src='images/" + pokemon['img'] +
+        "' alt='" + pokemon['name'] + "'> <h2>" + pokemon['name'] + "</h2> <div>Type : ";
+
+    // écriture des types de pokemons
     for (let index = 0; index < listeTypes.length; index++) {
         if (index !== 0) {
             cardHTML += " / ";
         }
         cardHTML += listeTypes[index];
     }
+
     return cardHTML + "</div> <div>Niveau: " + pokemon['level'] + "</div> </div>";
 }
 
+/**
+ * affiche les pokemons
+ */
 function displayPokemons() {
     pokemonContainer.textContent = "";
 
@@ -79,5 +104,6 @@ function displayPokemons() {
     }
     pokemonContainer.innerHTML = resHTML;
 }
+
 displayPokemons();
 
