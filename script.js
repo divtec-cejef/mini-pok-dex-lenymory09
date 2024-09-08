@@ -58,7 +58,7 @@ function displayPokemons() {
         return;
     }
 
-    let resHTML = ''§;
+    let resHTML = '';
     for (let pokemon of pokemonsTab) {
         resHTML += `<p>${pokemon.name} `;
 
