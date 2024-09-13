@@ -57,34 +57,21 @@ const pokemonsTab = [
  * @returns {string} le code HTML permettant d'afficher le pokemon.
  */
 function generatePokemonCardHTML(pokemon) {
-    let cardHTML = "<div class='pokemon-card' style='background: "
+    let cardHTML = "<div class='pokemon-card' "
     let listeTypes = pokemon['type'].split(',');
 
     // Ajout couleur du Background
     if (listeTypes.length > 1) {
-        cardHTML += "linear-gradient(to right, ";
-        for (let index = 0; index < listeTypes.length; index++){
-            if (index !== 0)
-                cardHTML += ",";
-            cardHTML += typeColors[listeTypes[index]] + " 50%";
-        }
-        cardHTML += ")"
+        cardHTML += `style='background: linear-gradient(to right, ${typeColors[listeTypes[0]]} 50%, ${typeColors[listeTypes[1]]} 50%);'`;
     } else {
-        cardHTML += typeColors[pokemon['type']];
+        cardHTML += `style='background: ${typeColors[pokemon['type']]};'`;
     }
-
-    cardHTML += ";'> <img src='images/" + pokemon['img'] +
-        "' alt='" + pokemon['name'] + "'> <h2>" + pokemon['name'] + "</h2> <div>Type : ";
+    cardHTML += `;'> <img src='images/${pokemon['img']}' alt=' ${pokemon['name']}'> <h2> ${pokemon['name']} </h2> <div>Type : `;
 
     // écriture des types de pokemons
-    for (let index = 0; index < listeTypes.length; index++) {
-        if (index !== 0) {
-            cardHTML += " / ";
-        }
-        cardHTML += listeTypes[index];
-    }
+    cardHTML += listeTypes.join(" / ");
 
-    return cardHTML + "</div> <div>Niveau: " + pokemon['level'] + "</div> </div>";
+    return `${cardHTML} </div> <div>Niveau: ${pokemon['level']} </div> </div>`;
 }
 
 /**
@@ -106,4 +93,3 @@ function displayPokemons() {
 }
 
 displayPokemons();
-
