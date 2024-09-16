@@ -10,6 +10,7 @@
 const DEFAULT_COLOR = '#ccc';
 
 const pokemonContainer = document.querySelector(".pokemon-container");
+const searchBar = document.getElementById("search-bar");
 
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
@@ -77,19 +78,24 @@ function generatePokemonCardHTML(pokemon) {
 /**
  * affiche les pokemons
  */
-function displayPokemons() {
+function displayPokemons(pokemonTries) {
     pokemonContainer.textContent = "";
 
-    if (!pokemonsTab.length) {
+    if (!pokemonTries.length) {
         pokemonContainer.innerHTML = '<p>Dracaufeu a tout brûlé, aucun Pokémon ne correspond à ta recherche !</p>'
         return;
     }
 
     let resHTML = '';
-    for (let pokemon of pokemonsTab) {
+    for (let pokemon of pokemonTries) {
         resHTML += generatePokemonCardHTML(pokemon);
     }
     pokemonContainer.innerHTML = resHTML;
 }
 
-displayPokemons();
+function filterAndSortPokemons(){
+   displayPokemons(pokemonsTab.filter(pokemon => pokemon['name'].toLowerCase().includes(searchBar.value.toLowerCase())));
+}
+
+displayPokemons(pokemonsTab);
+searchBar.addEventListener('input', filterAndSortPokemons);
