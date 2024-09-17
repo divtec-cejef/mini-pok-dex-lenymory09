@@ -12,6 +12,7 @@ const DEFAULT_COLOR = '#ccc';
 const pokemonContainer = document.querySelector(".pokemon-container");
 const searchBar = document.getElementById("search-bar");
 const typeFilter = document.getElementById("type-filter");
+const sortOrder = document.getElementById("sort-order");
 
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
@@ -66,7 +67,7 @@ function generatePokemonCardHTML(pokemon) {
     if (listeTypes.length > 1) {
         cardHTML += `style='background: linear-gradient(to right, ${typeColors[listeTypes[0]]} 50%, ${typeColors[listeTypes[1]]} 50%);'`;
     } else {
-        cardHTML += `style='background: ${typeColors[pokemon['type']]};'`;
+        cardHTML += `style='background: ${typeColors[pokemon['type']] || DEFAULT_COLOR};'`;
     }
     cardHTML += `;'> <img src='images/${pokemon['img']}' alt=' ${pokemon['name']}'> <h2> ${pokemon['name']} </h2> <div>Type : `;
 
@@ -98,10 +99,18 @@ function filterAndSortPokemons() {
     let pokemonTries;
     pokemonTries = pokemonsTab.filter(pokemon => pokemon.name.toLowerCase().includes(searchBar.value.toLowerCase()));
     pokemonTries = pokemonTries.filter(pokemon => pokemon.type.toLowerCase().includes(typeFilter.value.toLowerCase()));
+    switch (sortOrder.value.toLowerCase()) {
+        case "name-asc": pokemonTries.sort((a,b) => a.name.localeCompare(b.name)); break;
+        case "name-desc": pokemonTries.sort((a,b) => b.name.localeCompare(a.name)); break;
+        case "level-asc": pokemonTries.sort((a,b) => a.level - b.level); break;
+        default: pokemonTries.sort((a,b) => b.level - a.level); break;
+    }
+
     displayPokemons(pokemonTries);
 }
 
 displayPokemons(pokemonsTab);
 searchBar.addEventListener('input', filterAndSortPokemons);
 typeFilter.addEventListener('input', filterAndSortPokemons);
+sortOrder.addEventListener('input', filterAndSortPokemons);
 Window.addEventListener('load', filterAndSortPokemons);
