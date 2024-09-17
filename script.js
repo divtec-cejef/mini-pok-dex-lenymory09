@@ -11,6 +11,7 @@ const DEFAULT_COLOR = '#ccc';
 
 const pokemonContainer = document.querySelector(".pokemon-container");
 const searchBar = document.getElementById("search-bar");
+const typeFilter = document.getElementById("type-filter");
 
 // Couleurs pour chaque type de Pokémon
 const typeColors = {
@@ -93,9 +94,14 @@ function displayPokemons(pokemonTries) {
     pokemonContainer.innerHTML = resHTML;
 }
 
-function filterAndSortPokemons(){
-   displayPokemons(pokemonsTab.filter(pokemon => pokemon['name'].toLowerCase().includes(searchBar.value.toLowerCase())));
+function filterAndSortPokemons() {
+    let pokemonTries;
+    pokemonTries = pokemonsTab.filter(pokemon => pokemon.name.toLowerCase().includes(searchBar.value.toLowerCase()));
+    pokemonTries = pokemonTries.filter(pokemon => pokemon.type.toLowerCase().includes(typeFilter.value.toLowerCase()));
+    displayPokemons(pokemonTries);
 }
 
 displayPokemons(pokemonsTab);
 searchBar.addEventListener('input', filterAndSortPokemons);
+typeFilter.addEventListener('input', filterAndSortPokemons);
+Window.addEventListener('load', filterAndSortPokemons);
